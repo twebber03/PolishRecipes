@@ -3,3 +3,4 @@ We can meet in-person on Tuesdays from 2pm-4pm, in-person Thursdays from 330-530
 # Communication
 We will communicate via discord. Our working hours are 24/7. We expect all team members to respond within 24 hours to any messages that was sent druing working hours. Contact info for our team members: Oli (olitheoil), Angela (low_key23), Thomas (ace039042).
 # Team Roles
+Angela will take on the role of Project Lead, Thomas will take on the role of Backend Developer, Oli will take on the role of FrontEnd Developer. 
