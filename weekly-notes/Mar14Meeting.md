@@ -1,5 +1,5 @@
 **Overview: Weekly check in to prepare for FGP4 meeting with TA Ayush Bhardwaj**
-When: March 14th @ 6pm 
+When: March 14th @ 445pm  
 Duration: UPDATE ME 
 Where: Virtual 
 
@@ -16,10 +16,11 @@ Recent Progress: Finalized on idea and the specifications for our FGP4 Milestone
 - All team members have put in nearly the same amount of‬‭ effort‬‭ in contributions since the last FGP‬ check-in.‬
   
 - The team has met at least three times, once each week on 03/03, 03/10, and 03/17, and has‬ submitted the notes from each meeting to their GitHub repo.‬
-  -   Virtual meetings on March 06 and March 14 (for further details please refer to meeting notes
+  - Virtual meetings on March 06 and March 14 (for further details please refer to meeting notes
 
 - Team shares how they plan on continuing or improving the balance of project work.‬
-  - Thomas is responsible for back-end, Oli is responsible for front-end, Angela will oversee project management logistics. Angela will         jump in and assist either Thomas or Oli when needed. Each team member has contributed at least once on GitHub since the last FGP            check-in.‬‭ 
+  - Thomas is responsible for back-end, Oli is responsible for front-end, Angela will oversee project management logistics. Angela will jump in and assist either Thomas or Oli when 
+needed. Each team member has contributed at least once on GitHub since the last FGP check-in.‬‭ 
 
 **‭<ins>Full Stack Application‬ Idea & Scope</ins>‬**
 - Idea solves a real problem that contributes positively to society and the community.‬‭
@@ -53,4 +54,4 @@ Recent Progress: Finalized on idea and the specifications for our FGP4 Milestone
 - Alternative data structures that were considered but ultimately not chosen for each use case are‬ explained.‬
 
 ‭
-Action Items (Work In Progress):
+Action Items (Work In Progress): 
