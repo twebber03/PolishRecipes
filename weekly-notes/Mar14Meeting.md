@@ -1,20 +1,21 @@
 **Overview: Weekly check in to prepare for FGP4 meeting with TA Ayush Bhardwaj**
 When: March 14th @ 445pm  
-Duration: UPDATE ME 
+Duration: 2 hours
 Where: Virtual 
 
 Attendance: Angela Lojko, Oli Kosiacki, Thomas Webber 
-Late: Name (why)
+Late: N/A
 Missing: N/A
 
 Recent Progress: Finalized on idea and the specifications for our FGP4 Milestone meeting
 
-**Meeting Notes: FGP4 Grading Rubric**
+**Meeting Minutes:**
 - Oli has started working on the rough sketch of the applications layout, features, and functions and will push that to the GitHub once finalized
-- Data structures considered B-Trees, Trie, Splay Tree, Priority Queue, 
-- Virtual meeting scheduled on Monday from 3-4pm to finalize minor detail 
+- Data structures considered B-Trees, Trie, Splay Tree, Priority Queue and discussed the benefits and the implementation of each structure for our program
 - Discussed ideas on what features we want our application to have 
-- Oli posed an idea on dish tags (location, ingredients, etc) 
+- Oli posed an idea on dish tags (location, ingredients, etc)
+- Discussed the timeline and how we want to progress moving forward
+- Virtual meeting scheduled on Monday from 3-4pm to finalize minor detail 
 
 **<ins>Github revisions and contributions</ins>**
 - All team members have put in nearly the same amount of‬‭ effort‬‭ in contributions since the last FGP‬ check-in.‬
@@ -25,7 +26,12 @@ Recent Progress: Finalized on idea and the specifications for our FGP4 Milestone
   - Thomas is responsible for back-end
   - Oli is responsible for front-end
   - Angela will oversee project management logistics.
-  - Angela will jump in and assist either Thomas or Oli when needed. Each team member has contributed at least once on GitHub since the last FGP check-in.‬‭ 
+  - Angela will jump in and assist either Thomas or Oli when needed.
+- Each team member has contributed at least once on GitHub since the last FGP check-in.
+   - Ang -- meeting notes
+   - Thomas -- draft google doc
+   - Oli -- design 
+   
 
 **‭<ins>Full Stack Application‬ Idea & Scope</ins>‬**
 - Idea solves a real problem that contributes positively to society and the community.‬‭
@@ -35,14 +41,14 @@ Recent Progress: Finalized on idea and the specifications for our FGP4 Milestone
   - Oli will handle this portion and upload the wireframe, design, plan on github 
 
 - Team shares any possible ethical issues related to their solution and how they will reduce any‬ negative impacts.‬
-  -  Oli stated if we web scrape random recipes might lose cultural context so might need 	  to research cultural history 
+  -  Oli stated if we web scrape random recipes might lose cultural context so might need to research cultural history 
 		  - consider a blimp or a page that brings in the history 
 		  - if we use a PQ to get the top 10 — the diversity of dishes gets lost 
 	- Altering the recipes may lose its meaning if recipes are altered, however with the front end design where we show some history to the using our application and explain the reasoning for the ingredients and why they are used 
 
 
 - Team has a breakdown of what they plan to achieve each week before the project deadline.‬‭
-  - Timeline: 
+  - **<ins>Timeline: </ins>**
     - This week 03/09 — 03/14  — 
       - plan the logistics (database, structures, visualization) 
     - Next week 03/15 — 03/22 —
@@ -66,14 +72,13 @@ Recent Progress: Finalized on idea and the specifications for our FGP4 Milestone
 
 **<ins>Data Source &‬ Backend‬ Integration‬</ins>**
 - The data source is clearly identified and appropriate for the application.‬‭
-  - Angela found an API database that has different recipes that could be used for the data (https://therecipedb.vercel.app/) 
+  - Angela found an API database that has different recipes that could be used for the data (https://therecipedb.vercel.app/)
+  - Map API 
 
 - Team explains how data will be pulled into the backend.
-
-
 - Team describes any necessary data processing or cleaning before use.‬‭
-‭
-
+	-  Will have to clean the data and get only Polish-based recipes
+   
 **<ins>Choice & Fit of‬ Data‬ Structures‬</ins>**
 - Application uses at least two advanced data structures.‬
   - We will use a Trie for one of the data structures in our project 
@@ -96,7 +101,9 @@ Recent Progress: Finalized on idea and the specifications for our FGP4 Milestone
     - User unpredictability could lead to bad time efficiency as looking up obscure/unpopular recipes brings those recipe nodes to the top
 
 ‭
-Action Items (Work In Progress): 
-  - 
+**Action Items (Work In Progress):**
+  - Thomas will do research on Django
+  -  Oli will do research on React and finalize the design 
+  -  Angela will do research on both (react and django)
 
-Next meeting: Monday March 17th at 3pm 
+**<ins>Next meeting: Monday March 17th at 3pm<\ins>**
