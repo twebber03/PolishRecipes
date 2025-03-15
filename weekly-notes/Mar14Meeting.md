@@ -106,4 +106,4 @@ Recent Progress: Finalized on idea and the specifications for our FGP4 Milestone
   -  Oli will do research on React and finalize the design 
   -  Angela will do research on both (react and django)
 
-**<ins>Next meeting: Monday March 17th at 3pm<\ins>**
+**<ins>Next meeting: Monday March 17th at 3pm**
