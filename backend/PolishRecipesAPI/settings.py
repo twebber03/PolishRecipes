@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-01x!u$2&^0x@^mgl92%a9zam%6o16ji@y&6+_$dg0@qe0w2!5d'
+
+load_dotenv()
+
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,14 +34,17 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+# Defining our apps
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.admin', # gives us admin interface for managing our data
+    'django.contrib.auth', # used for authenticating users
+    'django.contrib.contenttypes', 
+    'django.contrib.sessions', # legacy, temporary memory on server
+    'django.contrib.messages', # used for displaying one time notifications to the user
+    'django.contrib.staticfiles', # for serving static files such as images, css files and so on
+    # Can create our own apps 
+    'playground'
+
 ]
 
 MIDDLEWARE = [
