@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react'
 import '../style/App.css'
 
@@ -12,7 +13,7 @@ function Home() {
         { id: 2, name: "Rosół", image: "/assets/placeholders/dish2.jpg" },
         { id: 3, name: "Pierogi", image: "/assets/placeholders/dish3.jpg" },
         { id: 4, name: "Gulasz", image: "/assets/placeholders/dish4.jpg" },
-        { id: 5, name: "Mizeria ", image: "/assets/placeholders/dish5.jpg" },
+        { id: 5, name: "Mizeria", image: "/assets/placeholders/dish5.jpg" },
     ]);
 
     // get top k count (placeholder)
@@ -36,6 +37,12 @@ function Home() {
         dishes[(index + 1) % k], // next dish
         ];
     };
+
+    const navigate = useNavigate(); 
+    // navigate to dish page based on its id
+    const goToDishPage = (name) => {
+        navigate(`/dish/${name}`); 
+    };    
     
     // JSX goes here
     return ( 
@@ -50,6 +57,13 @@ function Home() {
                 <div
                 key={dish.id}
                 className={`dish ${i === 1 ? "center" : "side"}`} // center dish is larger
+                onClick={() => {
+                    if (i === 1) {
+                      goToDishPage(dish.name.toLowerCase()); // navigate to dish's page
+                    } else {
+                      i === 0 ? prevDish() : nextDish(); // move the side dish to the center
+                    }
+                  }}
                 >
                 <img src={dish.image} alt={dish.name} />
                 </div>

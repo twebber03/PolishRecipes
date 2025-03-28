@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Discover from "./pages/Discover";
 import Saved from "./pages/Saved";
 import Search from "./pages/Search";
+import Dish from "./pages/Dish";
 
 // app serves as the main router for the application
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/discover" element={<Discover />} />
           <Route path="/saved" element={<Saved />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/dish/:name" element={<Dish />} />
         </Routes>
       </div>
     </Router>
