@@ -25,10 +25,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+# BASE_DIR = Path(__file__).resolve().parent.parent
+# load_dotenv(dotenv_path=BASE_DIR / ".env")
+
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+DEBUG = os.getenv('DEBUG')
+# os.getenv("DJANGO_SECRET_KEY")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -43,7 +48,9 @@ INSTALLED_APPS = [
     'django.contrib.messages', # used for displaying one time notifications to the user
     'django.contrib.staticfiles', # for serving static files such as images, css files and so on
     # Can create our own apps 
-    'playground'
+    'playground',
+    "rest_framework", 
+    "api", 
 
 ]
 
