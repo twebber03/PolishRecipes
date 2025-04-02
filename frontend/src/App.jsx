@@ -7,6 +7,7 @@ import Discover from "./pages/Discover";
 import Saved from "./pages/Saved";
 import Search from "./pages/Search";
 import Dish from "./pages/Dish";
+import NotFound from "./pages/NotFound";
 
 // app serves as the main router for the application
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/saved" element={<Saved />} />
           <Route path="/search" element={<Search />} />
           <Route path="/dish/:name" element={<Dish />} />
+          <Route path="*" element={<NotFound />} /> {/* catch-all 404 route */}
         </Routes>
       </div>
     </Router>
