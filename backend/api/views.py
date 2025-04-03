@@ -4,29 +4,11 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.request import Request 
 from rest_framework.decorators import api_view
-from scripts.nodeclass import create_list_nodes
+from scripts.nodeclass import create_list_dict_nodes
+from collections import deque
+import heapq
 
 # Create your views here.
-@api_view(['GET'])
-def recipes_deque_view(request: Request) -> Response: 
-    # These functions can pull data from db
-    # Transform data
-    # Send emails and so on
-    
-    # need to map this action/view to a url, when we get a request at the url this funciton will be called
-    person = {'name': 'thomas', 'age':'20'}
-    return Response(person)
-
-@api_view(['GET'])
-def recipes_priority_view(request):
-    # These functions can pull data from db
-    # Transform data
-    # Send emails and so on
-    
-    # need to map this action/view to a url, when we get a request at the url this funciton will be called
-    person = {'name': 'thomas', 'age':'20'}
-    return Response(person)
-
 @api_view(['GET'])
 def recipes_pagination_priority(request):
     # These functions can pull data from db
@@ -34,18 +16,9 @@ def recipes_pagination_priority(request):
     # Send emails and so on
     
     # need to map this action/view to a url, when we get a request at the url this funciton will be called
-    person = {'name': 'thomas', 'age':'20'}
-    return Response(person)
-
-@api_view(['GET'])
-def recipes_pagination_dequeue(request):
-    # These functions can pull data from db
-    # Transform data
-    # Send emails and so on
-    
-    # need to map this action/view to a url, when we get a request at the url this funciton will be called
-    person = {'name': 'thomas', 'age':'20'}
-    return Response(person)
+    list_of_dict_nodes = create_list_dict_nodes()
+    top_k_dict_nodes = heapq.nlargest(10, list_of_dict_nodes, key=lambda node: node.get('Popularity'))
+    return Response(top_k_dict_nodes)
 
 @api_view(['GET'])
 def recipes_trie_names(request):
@@ -54,8 +27,8 @@ def recipes_trie_names(request):
     # Send emails and so on
     
     # need to map this action/view to a url, when we get a request at the url this funciton will be called
-    person = create_list_nodes()
-    return Response(person)
+    # person = create_list_dict_nodes()
+    return Response({'hello': 'world'})
 
 
 
