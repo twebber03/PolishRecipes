@@ -9,7 +9,7 @@ function Home() {
 
     // get backend stuff here by popping off k dishes from priority queue (placeholder for now)
     const [dishes, setDishes] = useState([
-        { id: 1, name: "Barszcz", image: "/assets/placeholders/dish1.jpg" },
+        { id: 1, name: "Red Barszcz", image: "/assets/placeholders/dish1.jpg" },
         { id: 2, name: "Rosół", image: "/assets/placeholders/dish2.jpg" },
         { id: 3, name: "Pierogi", image: "/assets/placeholders/dish3.jpg" },
         { id: 4, name: "Gulasz", image: "/assets/placeholders/dish4.jpg" },
