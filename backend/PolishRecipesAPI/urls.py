@@ -21,4 +21,5 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('playground/', include('playground.urls')), # any url's that start with playground should be routed to our playground app, will chop off playground/hello -> hello
+    path('api/', include('api.urls')), 
 ]
