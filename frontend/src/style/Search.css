@@ -1,0 +1,137 @@
+.search-container {
+    display: flex;
+    height: 85vh;
+    width: 80vw;
+    padding: 2rem;
+    gap: 2rem;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+    
+  }
+  
+  .search-left,
+  .search-right {
+    flex: 1;
+    background-color: #c4c4c4;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-left h2,
+  .search-right h2 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .input-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 3.25rem;
+  }
+  
+  .input-group input {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+  }
+  
+  .input-group button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .input-group button:hover {
+    background-color: #005fa3;
+  }
+  
+  .autocomplete-suggestions {
+    margin-top: 0.5rem;
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .autocomplete-suggestions div {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .autocomplete-suggestions div:last-child {
+    border-bottom: none;
+  }
+  
+  .autocomplete-suggestions div:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .dropdown-group {
+    margin-top: 1rem;
+  }
+  
+  .dropdown-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .dropdown-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+  
+  .dropdown-group button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .dropdown-group button:hover {
+    background-color: #005fa3;
+  }
+
+  .autocomplete-suggestions {
+    margin-top: 0.5rem;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .autocomplete-box {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s ease-in-out;
+    color: #333;
+  }
+  
+  .autocomplete-box:last-child {
+    border-bottom: none;
+  }
+  
+  .autocomplete-box:hover {
+    background-color: #f0f0f0;
+  }
+  
+  
+  

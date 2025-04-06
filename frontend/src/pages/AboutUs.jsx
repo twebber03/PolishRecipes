@@ -1,12 +1,22 @@
-import React from "react";
+import { useState, useEffect } from 'react'
 import "../style/AboutUs.css";
 
 function AboutUs() {
+    const [flipped, setFlipped] = useState(false);
+    const [autoFlip, setAutoFlip] = useState(true);
+    const [resetKey, setResetKey] = useState(0);
+
     const teamMembers = [
         { name: "Angela Lojko", role: "Project Leader", description: "Specializes on both frontend and backend integration." },
         { name: "Oli Kosiacki", role: "Frontend Developer", description: "Specializes in React and UI design." },
         { name: "Thomas Webber", role: "Backend Developer", description: "Specializes in Django and API integration." }
     ];
+
+    // placeholder acknowledgements
+    const acknowledgements = [
+        { title: "Wikipedia - Barszcz", url: "https://en.wikipedia.org/wiki/Borscht" },
+        { title: "Polish Cuisine Guide", url: "https://www.poland.travel/en/culinary-tourism" },
+      ];
 
     const ourMotivation = "All members of our team come from a Polish background, and we want to help people discover and appreciate Polish culture through its cuisine while preserving its rich heritage. To maintain our belief in cultural integrity, we carefully curate each dish, avoiding purely random web scraping and instead incorporating research on the origins and significance of ingredients. By highlighting the meaning behind traditional recipes, we ensure that users not only learn how to prepare these dishes but also gain a deeper appreciation for their cultural significance.";
     // "Beyond simply listing recipes, we provide historical context to ensure authenticity and deepen understanding."
@@ -24,54 +34,93 @@ function AboutUs() {
         { title: "Saved", description: "The saved page organizes and displays your favorited dishes, grouping them by the date they were saved. It allows for easier revisits and keeps track of your favorite recipes over time." }
     ];
 
+    const handleFlip = () => {
+        setFlipped(prev => !prev);
+        setResetKey(prev => prev + 1); // changes key, resetting the interval
+      };
+    
+      useEffect(() => {
+        if (!autoFlip) return;
+      
+        const interval = setInterval(() => {
+          setFlipped(prev => !prev);
+        }, 5000);
+      
+        return () => clearInterval(interval);
+      }, [resetKey, autoFlip]); // resets when resetKey changes or autoFlip is toggled
+      
+
     return (
         <div className="about-container">
             <h1 className="about-title">Polish Delight</h1>
             
             <div className="about-columns">
-            {/* About the Team */}
-            <div className="about-box">
-                <h2>About the Team</h2>
-                <div className="team-section">
-                {teamMembers.map((member, index) => (
-                    <div key={index} className="team-member">
-                    <h3>{member.name}</h3>
-                    <p><strong>{member.role}</strong></p>
-                    <p>{member.description}</p>
+                <div className="about-box flip-box" onClick={handleFlip}>
+                    <div className={`flip-inner ${flipped ? 'flipped' : ''}`}>
+                        <div className="flip-front">
+                            <h2>About the Team</h2>
+                            <div className="team-section">
+                                {teamMembers.map((member, index) => (
+                                    <div key={index} className="team-member">
+                                        <h3>{member.name}</h3>
+                                        <p><strong>{member.role}</strong></p>
+                                        <p>{member.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="flip-back">
+                            <h2>Acknowledgements</h2>
+                            <div className="acknowledgements-section">
+                                {acknowledgements.map((acknowledgement, index) => (
+                                <div key={index} className="acknowledgement-item">
+                                    <p>{acknowledgement.url}</p>
+                                </div>
+                                ))}
+                            </div>
+                            <button className="disable-flip-btn" onClick={(e) => {
+                                e.stopPropagation();
+                                setAutoFlip(prev => !prev);
+                                }}>
+                                <img 
+                                    src= "/assets/icons/lock.png"
+                                    alt={autoFlip ? "L" : "U"} 
+                                    className={`lock-icon ${autoFlip ? "unlocked" : "locked"}`}
+                                />
+                            </button>
+                        </div>
                     </div>
-                ))}
                 </div>
-            </div>
 
-            {/* Our Motivation */}
-            <div className="about-box">
-            <h2>Our Motivation</h2>
-            <div className="motivation-section">
-                {motivationSentences.map((sentence, index) => (
-                <div key={index} className="motivation-box">
-                    <p>{sentence}</p>
-                </div>
-                ))}
-            </div>
-            </div>
-
-            {/* About the Website */}
-            <div className="about-box">
-                <h2>About the Website</h2>
-                <div className="website-section">
-                    <div className="website-box overview">
-                    <p>{websiteOverview}</p>
-                    </div>
-                    {websiteSections.map((section, index) => (
-                    <div key={index} className="website-box">
-                        <h3>{section.title}</h3>
-                        <p>{section.description}</p>
+                {/* Our Motivation */}
+                <div className="about-box">
+                <h2>Our Motivation</h2>
+                <div className="motivation-section">
+                    {motivationSentences.map((sentence, index) => (
+                    <div key={index} className="motivation-box">
+                        <p>{sentence}</p>
                     </div>
                     ))}
                 </div>
-            </div>
+                </div>
 
-        </div>
+                {/* About the Website */}
+                <div className="about-box">
+                    <h2>About the Website</h2>
+                    <div className="website-section">
+                        <div className="website-box overview">
+                        <p>{websiteOverview}</p>
+                        </div>
+                        {websiteSections.map((section, index) => (
+                        <div key={index} className="website-box">
+                            <h3>{section.title}</h3>
+                            <p>{section.description}</p>
+                        </div>
+                        ))}
+                    </div>
+                </div>
+
+            </div>
         </div>
     );
 }

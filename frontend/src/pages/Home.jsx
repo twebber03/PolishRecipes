@@ -7,6 +7,8 @@ function Home() {
     // set top k count e.g. 10
     //const [k, setK] = useState(10)
 
+    //carousel = [];
+
     // get backend stuff here by popping off k dishes from priority queue (placeholder for now)
     const [dishes, setDishes] = useState([
         { id: 1, name: "Red Barszcz", image: "/assets/placeholders/dish1.jpg" },
@@ -15,6 +17,16 @@ function Home() {
         { id: 4, name: "Gulasz", image: "/assets/placeholders/dish4.jpg" },
         { id: 5, name: "Mizeria", image: "/assets/placeholders/dish5.jpg" },
     ]);
+
+    // when page loads, request the lowest k, greatest k, and greatest k - 1
+    /*
+    fetch(api/main_carousel?size=${size}&action=${"load"})
+    .then((res) => res.json())
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((err) => console.error("Request failed", err))
+    */
 
     // get top k count (placeholder)
     const [k, setK] = useState(dishes.length)
@@ -41,7 +53,7 @@ function Home() {
     const navigate = useNavigate(); 
     // navigate to dish page based on its id
     const goToDishPage = (name) => {
-        navigate(`/dish/${name}`); 
+        navigate(`/dish/${name.toLowerCase()}`); 
     };    
     
     // JSX goes here
@@ -59,7 +71,7 @@ function Home() {
                 className={`dish ${i === 1 ? "center" : "side"}`} // center dish is larger
                 onClick={() => {
                     if (i === 1) {
-                      goToDishPage(dish.name.toLowerCase()); // navigate to dish's page
+                      goToDishPage(dish.name); // navigate to dish's page
                     } else {
                       i === 0 ? prevDish() : nextDish(); // move the side dish to the center
                     }

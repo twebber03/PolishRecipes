@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from 'react'
-import '../style/Dish.css'
+import { useState, useEffect } from 'react';
+import NotFound from "./NotFound"; 
+import '../style/Dish.css';
 
 const flipInterval = 5000;
 
@@ -35,23 +36,23 @@ function Dish() {
   const dish = dishes.find(search => search.RecipeName.toLowerCase() === name.toLowerCase());
 
   // error 404
-  if (!dish) {
-    return <div className="dish-not-found">Dish not found!</div>;
-  }
+  if (!dish) return <NotFound />;
 
   // default values if missing
   const {
     ID = 0,
     Popularity = 0,
     RecipeName = name,
-    Description = "No cultural info available",
+    Description = "No description available",
     Ingredients = ["No ingredients available"],
     Directions = "No recipe available",
     Category = "Unknown",
     Nutrients = {'calories': '0 kcal', 'carbohydrateContent': '0 g', 'cholesterolContent': '0 mg', 'fiberContent': '0 g', 'proteinContent': '0 g', 'saturatedFatContent': '0 g', 'sodiumContent': '0 mg', 'sugarContent': '0 g', 'fatContent': '0 g', 'unsaturatedFatContent': '0 g'},
     Servings = "0 servings",
-    Location = "Unknown location",
     ImageURL = "/assets/placeholders/default.jpg",
+    HistoryURL = "",
+    History = "No history available",
+    Origin = "No origin available",
   } = dish;
 
   // toggle favorite status
@@ -61,7 +62,7 @@ function Dish() {
 
   const handleFlip = () => {
     setFlipped(prev => !prev);
-    setResetKey(prev => prev + 1); // Changes key, resetting the interval
+    setResetKey(prev => prev + 1); // changes key, resetting the interval
   };
 
   useEffect(() => {
@@ -96,10 +97,10 @@ return (
                 <img src={ImageURL} alt={RecipeName} className="image" />
               </div>
               <div className="flip-box-back">
-                <p>{Location}</p> 
+                <p>{Origin}</p> 
                 {/* replace with a map api that can display map given a location*/}
                 <button className="disable-flip-btn" onClick={(e) => {
-                    e.stopPropagation(); // Prevent accidental flipping when clicking button
+                    e.stopPropagation(); // prevents accidental flipping when clicking button
                     setAutoFlip(prev => !prev);
                   }}>
                   <img 
@@ -124,7 +125,7 @@ return (
 
           <div className="box-scroll">
             <h3>Culture</h3>
-            <p>{Description}</p>
+            <p>{History}</p>
           </div>
 
           <div className="box-scroll">
