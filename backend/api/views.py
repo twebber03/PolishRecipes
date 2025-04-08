@@ -34,9 +34,9 @@ def recipes_pagination_priority(request):
 
     def get_updated_index(index, direction, size):
         if direction == 'right':
-            return (index + 1) % size
+            return (index) % size
         elif direction == 'left':
-            return (index - 1 + size) % size
+            return (index + size) % size
         else: 
             return index
     
