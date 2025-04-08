@@ -77,6 +77,26 @@ def recipes_pagination_priority(request):
     return Response(new_dict)
 
 @api_view(['GET'])
+def request_recipe(request):
+    recipe_name = request.query_params.get('name') # Right is the default val
+
+    recipe_name = recipe_name.lower()
+    recipe_name = recipe_name.replace('_', ' ')
+
+    
+
+    list_of_dict_nodes = create_list_dict_nodes()
+    top_k_dict_nodes = heapq.nlargest(10, list_of_dict_nodes, key=lambda node: node.get('Popularity'))
+    
+    for dict_node in top_k_dict_nodes: 
+        recipe_name_node = dict_node.get("RecipeName")
+        recipe_name_node = recipe_name_node.lower()
+        if recipe_name_node == recipe_name: 
+            return Response({"result" : dict_node}) 
+            #recipe_in_queue = True
+    return Response({"result": None})
+
+@api_view(['GET'])
 def recipes_trie_names(request):
     # These functions can pull data from db
     # Transform data
@@ -85,6 +105,7 @@ def recipes_trie_names(request):
     # need to map this action/view to a url, when we get a request at the url this funciton will be called
     # person = create_list_dict_nodes()
     return Response({'hello': 'world'})
+
 
 
 

@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import recipes_pagination_priority, recipes_trie_names
+from .views import recipes_pagination_priority, recipes_trie_names, request_recipe
 
 urlpatterns = [
     path('main_carousel/', recipes_pagination_priority),
+    path('main_dish/', request_recipe),
     path('trie/', recipes_trie_names), 
 ]
