@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages', # used for displaying one time notifications to the user
     'django.contrib.staticfiles', # for serving static files such as images, css files and so on
     # Can create our own apps 
+    'corsheaders',
     'playground',
     "rest_framework", 
     "api", 
@@ -60,6 +61,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
