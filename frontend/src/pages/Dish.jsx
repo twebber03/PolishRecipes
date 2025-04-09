@@ -21,6 +21,16 @@ function Dish() {
         let result = data["result"];
         //console.log(result);
 
+        // handle 'Category' as it may come empty or without spaces
+        if (typeof result.Category === "string") {
+          if (result.Category == "") {
+            result.Category = "Unknown"
+          }
+          else {
+            result.Category = result.Category.split(",").join(", ");
+          }
+        }
+
         // handle 'Ingredients' as it comes in a string when it should be an array
         if (typeof result.Ingredients === "string") {
           try {
@@ -58,6 +68,8 @@ function Dish() {
     return () => clearInterval(interval);
   }, [resetKey, autoFlip]); // resets when resetKey changes or autoFlip is toggled
 
+  const truncateText = (text, max = 40) => text.length > max ? text.slice(0, max - 3) + "..." : text;  
+
   // error 404
   if (!dish) return <NotFound />;
 
@@ -92,8 +104,8 @@ return (
     <div className="container">
       <div className="header">
         <div className="title">
-          <h1>{dish.RecipeName}</h1>
-          <h3>{"Type: " + Category}</h3>
+          <h1 title={dish.RecipeName}>{truncateText(dish.RecipeName)}</h1>
+          <h3>{"Type: " + dish.Category}</h3>
         </div>
         <button onClick={toggleFavorite} className="favorite-button">
           {isFavorite ? "★ Favorited" : "☆ Favorite"}
