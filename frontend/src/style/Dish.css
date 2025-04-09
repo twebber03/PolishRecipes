@@ -78,12 +78,14 @@
 
 .recipe-box {
   height: auto;
+  max-height: 65.5vh;
   width: 20vw;
   flex: 1;
   border: 1px solid #ddd;
   padding: 15px;
   border-radius: 5px;
   background-color: #fff9e6;
+  overflow: scroll;
 }
 
 .serving-size {

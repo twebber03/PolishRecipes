@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 function NotFound() {
     const location = useLocation();
     const pathParts = location.pathname.split('/'); 
-    const searchTerm = pathParts[2]; 
+    const searchTerm = decodeURIComponent(pathParts[2]);
 
     return (
         <div style={{ textAlign: "center", padding: "50px" }}>

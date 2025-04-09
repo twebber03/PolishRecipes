@@ -6,34 +6,57 @@ import '../style/Dish.css';
 const flipInterval = 5000;
 
 function Dish() {
-  // get dish name
+  // get dish name from url parameters
   const { name } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
   const [flipped, setFlipped] = useState(false);
   const [autoFlip, setAutoFlip] = useState(true);
   const [resetKey, setResetKey] = useState(0); // used to tract user interaction
+  const [dish, setDish] = useState(null);
 
-  // backend call to get the dish with the cooresponding name (placeholder for now)
-  const [dishes, setDish] = useState([
-    {
-      ID: 1, 
-      Popularity: 100, 
-      RecipeName: "Red Barszcz", 
-      Description: "Red Barszcz is a traditional Polish beet soup, often served with dumplings (uszka) or as a clear broth. It has deep cultural significance, especially during Christmas Eve dinner (Wigilia) in Poland. The dish is known for its vibrant red color and tangy flavor, commonly enjoyed throughout Eastern Europe.",
-      Ingredients: ["Beets", "Garlic", "Onion", "Carrot", "Celery", "Bay leaves", "Allspice", "Salt", "Pepper", "Lemon juice", "Sour cream (optional)"], 
-      Directions: "1. Peel and chop the beets, onion, carrot, and celery.\n" + "2. In a large pot, bring water to a boil and add the chopped vegetables.\n" + "3. Add bay leaves, allspice, salt, and pepper. Simmer for 45 minutes.\n" + "4. Strain the liquid to get a clear broth (or blend for a thicker soup).\n" + "5. Add lemon juice to enhance the tangy flavor.\n" + "6. Serve hot with sour cream or dumplings (uszka) for extra flavor.",
-      Category: "Lunch",
-      Nutrients: {"calories": "180 kcal", "carbohydrateContent": "35 g", "cholesterolContent": "20 mg", "fiberContent": "4 g", "proteinContent": "6 g", "saturatedFatContent": "2 g", "sodiumContent": "550 mg", "sugarContent": "8 g", "fatContent": "8 g", "unsaturatedFatContent": "3 g"},
-      Servings: "4 servings",
-      ImageURL: "/assets/placeholders/dish1.jpg",
-    },
-      { ID: 2, RecipeName: "Rosół", ImageURL: "/assets/placeholders/dish2.jpg" },
-      { ID: 3, RecipeName: "Pierogi", ImageURL: "/assets/placeholders/dish3.jpg" },
-      { ID: 4, RecipeName: "Gulasz", ImageURL: "/assets/placeholders/dish4.jpg" },
-      { ID: 5, RecipeName: "Mizeria", ImageURL: "/assets/placeholders/dish5.jpg" },
-  ]);
+  useEffect(() => {
+    fetch(`http://127.0.0.1:8000/api/main_dish?name=${name}`)
+      .then((res) => res.json())
+      .then((data) => {
+        let result = data["result"];
+        //console.log(result);
 
-  const dish = dishes.find(search => search.RecipeName.toLowerCase() === name.toLowerCase());
+        // handle 'Ingredients' as it comes in a string when it should be an array
+        if (typeof result.Ingredients === "string") {
+          try {
+            result.Ingredients = JSON.parse(result.Ingredients.replace(/'/g, '"'));
+          } catch (e) {
+            result.Ingredients = ["No ingredients available"];
+          }
+        } else if (!Array.isArray(result.Ingredients)) {
+          result.Ingredients = ["No ingredients available"];
+        }
+
+        // handle 'Nutrients' as it comes in a string when it should be a dict
+        if (typeof result.Nutrients === "string") {
+          try {
+            result.Nutrients = JSON.parse(result.Nutrients.replace(/'/g, '"'));
+          } catch (e) {
+            result.Nutrients = {};
+          }
+        } else if (typeof result.Nutrients !== "object" || result.Nutrients === null) {
+          result.Nutrients = {};
+        }
+
+        setDish(result);
+      })
+      .catch((err) => console.error("Request failed", err));
+  }, [name]); 
+
+  useEffect(() => {
+    if (!autoFlip) return;
+  
+    const interval = setInterval(() => {
+      setFlipped(prev => !prev);
+    }, 5000);
+  
+    return () => clearInterval(interval);
+  }, [resetKey, autoFlip]); // resets when resetKey changes or autoFlip is toggled
 
   // error 404
   if (!dish) return <NotFound />;
@@ -64,17 +87,6 @@ function Dish() {
     setFlipped(prev => !prev);
     setResetKey(prev => prev + 1); // changes key, resetting the interval
   };
-
-  useEffect(() => {
-    if (!autoFlip) return;
-  
-    const interval = setInterval(() => {
-      setFlipped(prev => !prev);
-    }, 5000);
-  
-    return () => clearInterval(interval);
-  }, [resetKey, autoFlip]); // resets when resetKey changes or autoFlip is toggled
-  
 
 return (
     <div className="container">
