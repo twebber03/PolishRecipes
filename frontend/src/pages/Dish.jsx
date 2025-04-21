@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from 'react';
+import { addFavorite, removeFavorite, isFavorite as checkIsFavorite } from '../utils/favorite';
 import NotFound from "./NotFound"; 
 import '../style/Dish.css';
 
@@ -68,6 +69,12 @@ function Dish() {
     return () => clearInterval(interval);
   }, [resetKey, autoFlip]); // resets when resetKey changes or autoFlip is toggled
 
+  useEffect(() => {
+    if (dish) {
+      setIsFavorite(checkIsFavorite(dish.ID));
+    }
+  }, [dish]);
+
   const truncateText = (text, max = 40) => text.length > max ? text.slice(0, max - 3) + "..." : text;  
 
   // error 404
@@ -92,6 +99,11 @@ function Dish() {
 
   // toggle favorite status
   const toggleFavorite = () => {
+    if (isFavorite) {
+      removeFavorite(ID);
+    } else {
+      addFavorite(dish);
+    }
     setIsFavorite(!isFavorite);
   };
 
