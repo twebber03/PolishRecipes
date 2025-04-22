@@ -40,6 +40,7 @@ function Home() {
     };
 
     const goToDishPage = (name) => {
+        
         navigate(`/dish/${name.toLowerCase()}`);
     };
 

@@ -93,8 +93,38 @@ function Search() {
             <option>Dinner</option>
             <option>Dessert</option>
           </select>
-          <button>Search by Tag</button>
         </div>
+        <div className="dropdown-group">
+          <label htmlFor="ingredient-count">Ingredient Count</label>
+          <select id="ingredient-count">
+            <option>Any</option>
+            <option>{"<10"}</option>
+            <option>{">10"}</option>
+          </select>
+        </div>
+        <div className="dropdown-group">
+          <label htmlFor="servings">Servings Amount</label>
+          <select id="servings">
+            <option>Any</option>
+            <option>{"<10"}</option>
+            <option>{">10"}</option>
+          </select>
+        </div>
+        <div className="dropdown-group">
+          <label htmlFor="origin">Origin</label>
+          <select id="origin">
+            <option>Any</option>
+            <option>Poland</option>
+            <option>Ukraine</option>
+            <option>Solvakia</option>
+            <option>Hungary</option>
+            <option>Czech Republic</option>
+            <option>Europe</option>
+          </select>
+        </div>
+
+        <button>Search by Tag</button>
+
       </div>
     </div>
   );
