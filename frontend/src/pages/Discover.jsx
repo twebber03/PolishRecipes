@@ -15,7 +15,7 @@ function Discover() {
 
   // fetch dishes 
   useEffect(() => {
-      fetch(`http://127.0.0.1:8000/api/main_carousel?index=${index}&size=${size}&direction=${direction}`)
+      fetch(`http://127.0.0.1:8000/api/discover_carousel?index=${index}&size=${size}&direction=${direction}`)
           .then((res) => res.json())
           .then((data) => {
               setDishes(data["recipes"]);

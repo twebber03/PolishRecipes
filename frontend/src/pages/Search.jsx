@@ -6,7 +6,7 @@ function Search() {
   const [searchText, setSearchText] = useState("");
 
   // placeholder for now
-  const [suggestions, setSuggestions] = useState(["Red Barszcz", "Rosół", "Pierogi", "Gulasz", "Mizeria"]);
+  const [suggestions, setSuggestions] = useState(["Stuffed Cabbage Rolls", "Grandma's Polish Perogies", "Polish Noodles (Cottage Cheese and Noodles)", "Apple Banana Cupcakes", "Kielbasa and Cabbage", "Sweet Polish Sausage", "Rosol", "Pierogi (Polish Dumplings)", "Polish Meat and Potatoes", "Polish Cream Cheese Coffee Cake", "Zeberka Wieprzowe w Sosie Wlasnym (Polish Pork Ribs in Gravy)", "Cheese-Filled Easter Polish Bread (Babka)", "Sliwkowka Czyli Nalewka ze Sliwek (Polish Purple Plum Liqueur)", "Mazurek (Polish Easter Cake)", "Botwinka (Polish Vegetable Soup with Beet Greens)", "Polish Coffee Cake", "Szybka Surowka z Czerwonej Kapusty (Polish Red Cabbage Slaw)", "Faworki (Polish Chrusciki)", "Polish Applesauce Cake", "Drozdzowka (Polish Yeast Plum Cake)"]);
 
   const handleInputChange = (e) => {
     setSearchText(e.target.value);
@@ -54,8 +54,8 @@ function Search() {
           <div className="autocomplete-suggestions">
             {suggestions
               .filter((s) =>
-                s.toLowerCase().includes(searchText.toLowerCase())
-              )
+                s.toLowerCase().startsWith(searchText.toLowerCase())
+              )              
               .map((suggestion, index) => (
                 <div
                   key={index}

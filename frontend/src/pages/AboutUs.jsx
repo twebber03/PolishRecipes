@@ -14,10 +14,37 @@ function AboutUs() {
 
     // placeholder acknowledgements
     const acknowledgements = [
-        { title: "Wikipedia - Barszcz", url: "https://en.wikipedia.org/wiki/Borscht" },
-        { title: "Polish Cuisine Guide", url: "https://www.poland.travel/en/culinary-tourism" },
+        { title: "A Place Between the Trees", url: "https://aplacebetweenthetrees.com/" },
+        { title: "AllRecipes", url: "https://www.allrecipes.com/" },
+        { title: "Ask.com", url: "https://www.ask.com/" },
+        { title: "Babbel", url: "https://www.babbel.com/" },
+        { title: "Bank Vine", url: "https://bank-vine.com/" },
+        { title: "Carolines Cooking", url: "https://www.carolinescooking.com/" },
+        { title: "Culture.pl", url: "https://culture.pl/" },
+        { title: "Dobrowolscy", url: "https://dobrowolscy.pl/" },
+        { title: "Everyday Delicious", url: "https://www.everyday-delicious.com/" },
+        { title: "Folkways Today", url: "https://folkways.today/" },
+        { title: "Food Perestroika", url: "https://foodperestroika.com/" },
+        { title: "Garlic & Zest", url: "https://www.garlicandzest.com/" },
+        { title: "Global Cookies Blogspot", url: "https://globalcookies.blogspot.com/" },
+        { title: "It's Everything Delicious", url: "https://itseverythingdelicious.com/" },
+        { title: "Krakow Food Tour", url: "https://www.krakowfoodtour.com/" },
+        { title: "La Patisserie du Monde", url: "https://lapatisseriedumonde.com/" },
+        { title: "Lojel", url: "https://www.lojel.com/" },
+        { title: "Poland Culinary Vacations", url: "https://polandculinaryvacations.com/" },
+        { title: "Poland Daily 24", url: "https://polanddaily24.com/" },
+        { title: "Polish Culture NYC", url: "https://polishculture-nyc.org/" },
+        { title: "Polish Housewife", url: "https://polishhousewife.com/" },
+        { title: "Polish Your Kitchen", url: "https://www.polishyourkitchen.com/" },
+        { title: "Taste Atlas", url: "https://www.tasteatlas.com/" },
+        { title: "Taste of Home", url: "https://www.tasteofhome.com/" },
+        { title: "The Daily Meal", url: "https://www.thedailymeal.com/" },
+        { title: "The Tasty Chapter", url: "https://thetastychapter.com/" },
+        { title: "Wikipedia", url: "https://en.wikipedia.org/" },
+        { title: "World Food Story", url: "https://www.worldfoodstory.co.uk/" },
+        { title: "Your Roots in Poland", url: "https://yourrootsinpoland.com/" }
       ];
-
+      
     const ourMotivation = "All members of our team come from a Polish background, and we want to help people discover and appreciate Polish culture through its cuisine while preserving its rich heritage. To maintain our belief in cultural integrity, we carefully curate each dish, avoiding purely random web scraping and instead incorporating research on the origins and significance of ingredients. By highlighting the meaning behind traditional recipes, we ensure that users not only learn how to prepare these dishes but also gain a deeper appreciation for their cultural significance.";
     // "Beyond simply listing recipes, we provide historical context to ensure authenticity and deepen understanding."
 
