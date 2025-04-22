@@ -1,12 +1,28 @@
 import { useNavigate } from "react-router-dom";
-import{ useState } from "react";
+import{ useState, useEffect } from "react";
 import '../style/Search.css'
 
 function Search() {
   const [searchText, setSearchText] = useState("");
 
-  // placeholder for now
-  const [suggestions, setSuggestions] = useState(["Stuffed Cabbage Rolls", "Grandma's Polish Perogies", "Polish Noodles (Cottage Cheese and Noodles)", "Apple Banana Cupcakes", "Kielbasa and Cabbage", "Sweet Polish Sausage", "Rosol", "Pierogi (Polish Dumplings)", "Polish Meat and Potatoes", "Polish Cream Cheese Coffee Cake", "Zeberka Wieprzowe w Sosie Wlasnym (Polish Pork Ribs in Gravy)", "Cheese-Filled Easter Polish Bread (Babka)", "Sliwkowka Czyli Nalewka ze Sliwek (Polish Purple Plum Liqueur)", "Mazurek (Polish Easter Cake)", "Botwinka (Polish Vegetable Soup with Beet Greens)", "Polish Coffee Cake", "Szybka Surowka z Czerwonej Kapusty (Polish Red Cabbage Slaw)", "Faworki (Polish Chrusciki)", "Polish Applesauce Cake", "Drozdzowka (Polish Yeast Plum Cake)"]);
+  const [suggestions, setSuggestions] = useState([]);
+
+  // fetch autocomplete suggestions
+  useEffect(() => {
+
+    if (!searchText) {
+      setSuggestions([]);
+      return;
+    }
+
+    fetch(`http://127.0.0.1:8000/api/trie/?letter=${searchText}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const completedSuggestions = data.result.map(suffix => searchText + suffix);
+        setSuggestions(completedSuggestions);
+      })
+      .catch((err) => console.error("Autocomplete fetch failed", err));
+  }, [searchText]);
 
   const handleInputChange = (e) => {
     setSearchText(e.target.value);
@@ -52,19 +68,15 @@ function Search() {
         {/* Autocomplete suggestions */}
         {searchText && (
           <div className="autocomplete-suggestions">
-            {suggestions
-              .filter((s) =>
-                s.toLowerCase().startsWith(searchText.toLowerCase())
-              )              
-              .map((suggestion, index) => (
-                <div
-                  key={index}
-                  className="autocomplete-box"
-                  onClick={() => handleSuggestionClick(suggestion)}
-                >
-                  {suggestion}
-                </div>
-              ))}
+            {suggestions.map((suggestion, index) => (
+              <div
+                key={index}
+                className="autocomplete-box"
+                onClick={() => handleSuggestionClick(suggestion)}
+              >
+                {suggestion}
+              </div>
+            ))}
           </div>
         )}
       </div>
