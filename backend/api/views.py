@@ -145,6 +145,35 @@ def recipes_pagination_reverse_priority(request):
     return Response(new_dict)
 
 @api_view(['GET'])
+def recipes_trie_names(request):
+    trie = Trie()
+
+    list_of_dict_nodes = create_list_dict_nodes()
+    list_of_tuples = trie.create_list_tuples(list_of_dict_nodes)
+
+
+    # Get and sanitize the query parameter
+    letter_word = request.query_params.get('letter')
+
+    if letter_word is None:
+        return Response({"error": "Missing 'letter' parameter"}, status=400)
+    
+    if isinstance(letter_word, list):
+        letter_word = ''.join(letter_word)
+
+    letter_word = letter_word.lower()
+    print("list_of_tuples before trie build:", list_of_tuples)
+
+    # Build the trie and search
+    trie_node = trie.build_trie(list_of_tuples)
+    list_of_tuples = trie.search(trie_node, letter_word)
+
+    # Extract second values from the tuples
+    second_values_words = [val for _, val in list_of_tuples]
+
+    return Response({"result": second_values_words})
+
+@api_view(['GET'])
 def request_recipe(request):
     recipe_name = request.query_params.get('name') # Right is the default val
 
@@ -173,31 +202,23 @@ def request_recipe(request):
     return Response({"result": None})
 
 @api_view(['GET'])
-def recipes_trie_names(request):
+def recipe_trie(request): 
     trie = Trie()
 
+    # Get the name from the query (always required by your frontend)
+    word = request.query_params.get('name')
+    word = word.lower()
+    # Load and process the data
     list_of_dict_nodes = create_list_dict_nodes()
-    list_of_tuples = trie.create_list_tuples(list_of_dict_nodes)
-
-    # Get and sanitize the query parameter
-    letter_word = request.query_params.get('letter')
-    if letter_word is None:
-        return Response({"error": "Missing 'letter' parameter"}, status=400)
     
-    if isinstance(letter_word, list):
-        letter_word = ''.join(letter_word)
-
-    letter_word = letter_word.lower()
-    print("list_of_tuples before trie build:", list_of_tuples)
-
-    # Build the trie and search
-    trie_node = trie.build_trie(list_of_tuples)
-    list_of_tuples = trie.search(trie_node, letter_word)
-
-    # Extract second values from the tuples
-    second_values_words = [val for _, val in list_of_tuples]
-
-    return Response({"result": second_values_words})
+    node = None
+    for dict_node in list_of_dict_nodes: 
+        print(dict_node)
+        if dict_node.get("RecipeName", "").lower() == word:
+            node = dict_node
+    
+    print("NODE", node)
+    return Response({"results": node})
 
 
 
