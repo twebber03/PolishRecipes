@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.request import Request 
 from rest_framework.decorators import api_view
 from scripts.nodeclass import create_list_dict_nodes
+from scripts.maketrie import Trie, TrieNode
 from collections import deque
 import heapq
 
@@ -98,13 +99,31 @@ def request_recipe(request):
 
 @api_view(['GET'])
 def recipes_trie_names(request):
-    # These functions can pull data from db
-    # Transform data
-    # Send emails and so on
+    trie = Trie()
+
+    list_of_dict_nodes = create_list_dict_nodes()
+    list_of_tuples = trie.create_list_tuples(list_of_dict_nodes)
+
+    # Get and sanitize the query parameter
+    letter_word = request.query_params.get('letter')
+    if letter_word is None:
+        return Response({"error": "Missing 'letter' parameter"}, status=400)
     
-    # need to map this action/view to a url, when we get a request at the url this funciton will be called
-    # person = create_list_dict_nodes()
-    return Response({'hello': 'world'})
+    if isinstance(letter_word, list):
+        letter_word = ''.join(letter_word)
+
+    letter_word = letter_word.lower()
+    print("list_of_tuples before trie build:", list_of_tuples)
+
+    # Build the trie and search
+    trie_node = trie.build_trie(list_of_tuples)
+    list_of_tuples = trie.search(trie_node, letter_word)
+
+    # Extract second values from the tuples
+    second_values_words = [val for _, val in list_of_tuples]
+
+    return Response({"result": second_values_words})
+
 
 
 
