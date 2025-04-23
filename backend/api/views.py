@@ -162,7 +162,7 @@ def recipes_trie_names(request):
         letter_word = ''.join(letter_word)
 
     letter_word = letter_word.lower()
-    print("list_of_tuples before trie build:", list_of_tuples)
+    # print("list_of_tuples before trie build:", list_of_tuples)
 
     # Build the trie and search
     trie_node = trie.build_trie(list_of_tuples)
@@ -170,17 +170,15 @@ def recipes_trie_names(request):
 
     # Extract second values from the tuples
     second_values_words = [val for _, val in list_of_tuples]
+    print("size of second values words are: " , len(second_values_words))
 
     return Response({"result": second_values_words})
 
 @api_view(['GET'])
-def request_recipe(request):
+def request_recipe_pq(request):
     recipe_name = request.query_params.get('name') # Right is the default val
-
     recipe_name = recipe_name.lower()
     recipe_name = recipe_name.replace('_', ' ')
-
-    
 
     list_of_dict_nodes = create_list_dict_nodes()
     top_k_dict_nodes = heapq.nlargest(10, list_of_dict_nodes, key=lambda node: node.get('Popularity'))
@@ -199,32 +197,25 @@ def request_recipe(request):
         if recipe_name_node == recipe_name: 
             return Response({"result" : dict_node}) 
 
-    return Response({"result": None})
-
+    return Response({"result": []})
 
 
 @api_view(['GET'])
-def request_recipe_by_tag(request):
-    recipe_category = request.query_params.get('category') 
+def request_recipes_by_tag(request):
+    recipe_category = request.query_params.get('category')
+    # FIXME: this will need to be fixed if ingredient count in implemented as a tag for the front end 
     # ingredientCount = request.query_params.get('ingredients') 
     servingSize =  request.query_params.get('servings') 
     originType = request.query_params.get('originType') 
 
-    # print(recipe_category)
-    # print(servingSize)
-    # print(originType)
-
-
     list_of_dict_nodes = create_list_dict_nodes()
     # print(len(list_of_dict_nodes))
-    # filterList = list_of_dict_nodes
+    filterList = list_of_dict_nodes
 
     # filter out recipes by meal type (if selected)
     if (recipe_category != None):
         filterList = filter(lambda node: recipe_category in node['Category'], list_of_dict_nodes)
         filterList = list(filterList)
-
-    # print("After category filter: ", len(filterList))
 
     #if/else statements filtering out by the serving size
     if (servingSize == "1-4"): 
@@ -243,15 +234,11 @@ def request_recipe_by_tag(request):
         filterList = filter(lambda node: node['Servings'] >= 20, filterList)
         filterList = list(filterList)
 
-    # print("After servings  filter: ", len(filterList))
 
     # filter out the recipes by origin 
     if (originType != None):
         filterList = filter(lambda node: originType in node['Origin'], filterList)
         filterList = list(filterList)
-    
-
-    # print("After origin: " , len(filterList))
 
     if (len(filterList) > 0): 
         return Response({"result" : filterList}) 
@@ -259,11 +246,10 @@ def request_recipe_by_tag(request):
     return Response({"result": None})
 
 
-
-
-
 @api_view(['GET'])
 def recipe_trie(request): 
+    # FIXME: this is not called by the front end but i believe this is where you want to search after autocomplete is done it may be as simple as my function search_recipe below 
+
     trie = Trie()
 
     # Get the name from the query (always required by your frontend)
@@ -282,6 +268,25 @@ def recipe_trie(request):
     return Response({"results": node})
 
 
+
+@api_view(['GET'])
+def search_recipe(request): 
+    # Get the name from the query (always required by your frontend)
+    recipeName = request.query_params.get('name')
+    recipeName = recipeName.lower()
+    # Load and process the data
+    list_of_dict_nodes = create_list_dict_nodes()
+    
+  
+    for dict_node in list_of_dict_nodes: 
+        recipe_name_node = dict_node.get("RecipeName")
+        recipe_name_node = recipe_name_node.lower()
+        if recipe_name_node == recipeName: 
+            return Response({"result" : dict_node}) 
+        
+
+    
+    return Response({"results": None})
 
 
 
