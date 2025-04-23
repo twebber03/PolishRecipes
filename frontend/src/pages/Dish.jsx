@@ -24,7 +24,7 @@ function Dish() {
       .then((res) => res.json())
       .then((data) => {
         let result = data["result"];
-        console.log(result);
+        // console.log(result);
 
         // handle 'Category' as it may come empty or without spaces
         if (typeof result.Category === "string") {
