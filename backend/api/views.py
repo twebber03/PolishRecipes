@@ -201,6 +201,67 @@ def request_recipe(request):
 
     return Response({"result": None})
 
+
+
+@api_view(['GET'])
+def request_recipe_by_tag(request):
+    recipe_category = request.query_params.get('category') 
+    # ingredientCount = request.query_params.get('ingredients') 
+    servingSize =  request.query_params.get('servings') 
+    originType = request.query_params.get('originType') 
+
+    # print(recipe_category)
+    # print(servingSize)
+    # print(originType)
+
+
+    list_of_dict_nodes = create_list_dict_nodes()
+    # print(len(list_of_dict_nodes))
+    # filterList = list_of_dict_nodes
+
+    # filter out recipes by meal type (if selected)
+    if (recipe_category != None):
+        filterList = filter(lambda node: recipe_category in node['Category'], list_of_dict_nodes)
+        filterList = list(filterList)
+
+    # print("After category filter: ", len(filterList))
+
+    #if/else statements filtering out by the serving size
+    if (servingSize == "1-4"): 
+        filterList = filter(lambda node: node['Servings'] <=4 , filterList)
+        filterList = list(filterList)
+    elif (servingSize == "5-8"):
+        filterList = filter(lambda node: 5 <= node['Servings'] <= 8, filterList)
+        filterList = list(filterList)
+    elif (servingSize == "9-12"):
+        filterList = filter(lambda node: 9 <= node['Servings'] <= 12, filterList)
+        filterList = list(filterList)
+    elif (servingSize == "13-19"):
+        filterList = filter(lambda node: 13 <= node['Servings'] <= 19, filterList)
+        filterList = list(filterList)
+    elif (servingSize == "20+"):
+        filterList = filter(lambda node: node['Servings'] >= 20, filterList)
+        filterList = list(filterList)
+
+    # print("After servings  filter: ", len(filterList))
+
+    # filter out the recipes by origin 
+    if (originType != None):
+        filterList = filter(lambda node: originType in node['Origin'], filterList)
+        filterList = list(filterList)
+    
+
+    # print("After origin: " , len(filterList))
+
+    if (len(filterList) > 0): 
+        return Response({"result" : filterList}) 
+   
+    return Response({"result": None})
+
+
+
+
+
 @api_view(['GET'])
 def recipe_trie(request): 
     trie = Trie()

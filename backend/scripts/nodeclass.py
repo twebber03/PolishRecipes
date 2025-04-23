@@ -14,7 +14,7 @@ class Node:  # Index,Popularity,Recipe Name,Description,Ingredients,Directions,C
         self.Directions = line[5]
         self.Category = line[6]
         self.Nutrients = line[7]
-        self.Servings = line[8]
+        self.Servings = int(line[8])
         self.ImageURL = line[9]
         self.HistoryURL = line[10]
         self.History = line[11]
