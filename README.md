@@ -111,31 +111,37 @@ python manage.py runserver
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
 ## Contributors<!-- Required -->
-<a href="https://github.com/University-of-Illinois-Chicago/fgp-team5/graphs/contributors">
+<!-- <a href="https://github.com/University-of-Illinois-Chicago/fgp-team5/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=University-of-Illinois-Chicago/fgp-team5" />
 </a>
 
-<!--  manually adding contributors because dependency graph was not allowed above -->
+manually adding contributors because dependency graph was not allowed above -->
 <table>
   <tr>
     <td align="center">
       <a href="https://github.com/angelalojko">
-        <img src="https://avatars.githubusercontent.com/angelalojko" width="50px;" alt=""/><br />
+        <img src="https://avatars.githubusercontent.com/angelalojko" width="60px;" alt=""/><br />
+        <sub><b>Angela Lojko</b></sub>
       </a>
     </td>
     <td align="center">
       <a href="https://github.com/okosi3">
-        <img src="https://avatars.githubusercontent.com/okosi3" width="50px;" alt=""/><br />
+        <img src="https://avatars.githubusercontent.com/okosi3" width="60px;" alt=""/><br />
+        <sub><b>Oli Kosiacki</b></sub>   
       </a>
     </td>
     <td align="center">
       <a href="https://github.com/twebber03">
-        <img src="https://avatars.githubusercontent.com/twebber03" width="50px;" alt=""/><br />
+        <img src="https://avatars.githubusercontent.com/twebber03" width="60px;" alt=""/><br />
+        <sub><b>Thomas Webber</b></sub>
       </a>
     </td>
   </tr>
 </table>
 
+- Angela Lojko -- project manager responsible for oversight of both frontend and backend progress, compeleted the backend data pulling, completed the search by tag functionality
+- Oli Kosiacki
+- Thomas Webber 
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
 ## Acknowledgments
