@@ -108,6 +108,8 @@ python manage.py runserver
 * It's recommended to use GIFs as they are more dynamic
 -->
 
+![About Us Page](demo/About.png)
+
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
 ## Contributors<!-- Required -->
@@ -140,8 +142,9 @@ manually adding contributors because dependency graph was not allowed above -->
 </table>
 
 - Angela Lojko -- project manager responsible for oversight of both frontend and backend progress, compeleted the backend data pulling, completed the search by tag functionality
-- Oli Kosiacki
-- Thomas Webber 
+- Oli Kosiacki -- frontend developor responsible for the UI Design of the application, completed the about us, home, discover, saved, search 
+- Thomas Webber -- backend developer responsible for the backend development of the application, creating the end points for the front end connection, creating the datastructures 
+  
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
 ## Acknowledgments
