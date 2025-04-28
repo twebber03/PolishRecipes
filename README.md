@@ -109,6 +109,13 @@ python manage.py runserver
 -->
 
 ![About Us Page](demo/About.png)
+![Home Page](demo/HomeDisplay.png)
+![Discover Page](demo/Discover.png)
+![Saved Page](demo/Saved.png)
+![Recipe Page](demo/recipe.png)
+![Search Window Page](demo/searchWindow.png)
+![Search Functionality Demo](demo/searchFunctionality.png)
+![Tagged Results Page](demo/taggedResults.png)
 
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
