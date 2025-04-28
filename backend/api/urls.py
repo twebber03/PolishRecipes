@@ -8,6 +8,5 @@ urlpatterns = [
     path('tag_dish/', request_recipes_by_tag),
     path('recipe_dish/', search_recipe),
     path('trie/', recipes_trie_names), 
-    # FIXME: trie_dish is not actually used in the front end please refer to comment in views,py 
     path('trie_dish/', recipe_trie), 
 ]

@@ -64,7 +64,7 @@ function Search() {
   const navigate = useNavigate();
   // navigate to dish page based on its id
   const goToDishPage = (name) => {
-    navigate(`/dish/${name.toLowerCase()}`);
+    navigate(`/tagSearch/${name.toLowerCase()}`);
   };
 
   const handleSearch = () => {

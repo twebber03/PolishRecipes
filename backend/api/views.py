@@ -203,8 +203,7 @@ def request_recipe_pq(request):
 @api_view(['GET'])
 def request_recipes_by_tag(request):
     recipe_category = request.query_params.get('category')
-    # FIXME: this will need to be fixed if ingredient count in implemented as a tag for the front end 
-    # ingredientCount = request.query_params.get('ingredients') 
+
     servingSize =  request.query_params.get('servings') 
     originType = request.query_params.get('originType') 
 
@@ -248,7 +247,6 @@ def request_recipes_by_tag(request):
 
 @api_view(['GET'])
 def recipe_trie(request): 
-    # FIXME: this is not called by the front end but i believe this is where you want to search after autocomplete is done it may be as simple as my function search_recipe below 
 
     trie = Trie()
 

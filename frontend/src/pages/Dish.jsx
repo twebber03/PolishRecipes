@@ -16,10 +16,6 @@ function Dish() {
   const [dish, setDish] = useState(null);
 
   useEffect(() => {
-    
-    // FIXME: we are calling this by home, discover, and autocomplete 
-    // main_dish is the endpoint get request for the PQ
-    // when thomas fixes recipe_trie i believe you will need to create another function to navigate to that path when you hit search on the search by name
     fetch(`http://127.0.0.1:8000/api/main_dish?name=${name}`)
       .then((res) => res.json())
       .then((data) => {
@@ -38,8 +34,14 @@ function Dish() {
 
         // handle 'Ingredients' as it comes in a string when it should be an array
         if (typeof result.Ingredients === "string") {
+        
           try {
-            result.Ingredients = JSON.parse(result.Ingredients.replace(/'/g, '"'));
+            if (result.Ingredients.includes('"')) {
+              result.Ingredients = JSON.parse(result.Ingredients);
+            }
+            else {
+              result.Ingredients = JSON.parse(result.Ingredients.replace(/'/g, '"'));
+            }
           } catch (e) {
             result.Ingredients = ["No ingredients available"];
           }
@@ -79,7 +81,8 @@ function Dish() {
     }
   }, [dish]);
 
-  const truncateText = (text, max = 40) => text.length > max ? text.slice(0, max - 3) + "..." : text;
+
+  const truncateText = (text, max = 60) => text.length > max ? text.slice(0, max - 3) + "..." : text;
 
   // error 404
   if (!dish) return <NotFound />;

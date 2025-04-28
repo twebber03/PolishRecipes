@@ -10,18 +10,18 @@ function Saved() {
     //const date = new Date(dish.favoritedAt).toISOString().split("T")[0];
     const dateObj = new Date(dateString);
     return `${dateObj.getDate().toString().padStart(2, '0')}/${(dateObj.getMonth() + 1).toString().padStart(2, '0')}/${dateObj.getFullYear()}`;
-  }  
+  }
 
   useEffect(() => {
     const favorites = getFavorites();
-  
+
     const groups = favorites.reduce((acc, dish) => {
-      const date = formatDate(dish.favoritedAt); 
+      const date = formatDate(dish.favoritedAt);
       if (!acc[date]) acc[date] = [];
       acc[date].push(dish);
       return acc;
     }, {});
-  
+
     // sort dates in descending order
     const sortedGroups = Object.fromEntries(
       Object.entries(groups).sort((a, b) => {
@@ -29,10 +29,10 @@ function Saved() {
         const [dayB, monthB, yearB] = b[0].split("/").map(Number);
         const dateA = new Date(yearA, monthA - 1, dayA);
         const dateB = new Date(yearB, monthB - 1, dayB);
-        return dateB - dateA; 
+        return dateB - dateA;
       })
     );
-  
+
     setGroupedFavorites(sortedGroups);
   }, []);
 
@@ -40,26 +40,26 @@ function Saved() {
   const handleRemove = (dishID) => {
     removeFavorite(dishID);
     const updatedFavorites = getFavorites();
-  
+
     const groups = updatedFavorites.reduce((acc, dish) => {
-      const date = formatDate(dish.favoritedAt); 
+      const date = formatDate(dish.favoritedAt);
       if (!acc[date]) acc[date] = [];
       acc[date].push(dish);
       return acc;
     }, {});
-  
+
     const sortedGroups = Object.fromEntries(
       Object.entries(groups).sort((a, b) => {
         const [dayA, monthA, yearA] = a[0].split("/").map(Number);
         const [dayB, monthB, yearB] = b[0].split("/").map(Number);
         const dateA = new Date(yearA, monthA - 1, dayA);
         const dateB = new Date(yearB, monthB - 1, dayB);
-        return dateB - dateA; 
+        return dateB - dateA;
       })
     );
-  
+
     setGroupedFavorites(sortedGroups);
-  };  
+  };
 
   //console.log(groupedFavorites)
 
@@ -79,7 +79,7 @@ function Saved() {
                   {/*<Link to={`/dish/${dish.RecipeName}`}>View Recipe</Link>*/}
                   {/*<button onClick={() => handleRemove(dish.ID)}>Remove</button>*/}
                   {/*<img src={dish.ImageURL} alt={dish.RecipeName} className="image" />*/}
-                  <Link to={`/dish/${dish.RecipeName}`}>
+                  <Link to={`/tagSearch/${dish.RecipeName}`}>
                     <img src={dish.ImageURL} alt={dish.RecipeName} className="image" />
                   </Link>
                 </div>

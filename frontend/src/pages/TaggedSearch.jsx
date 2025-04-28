@@ -16,7 +16,7 @@ function TaggedSearch() {
     const [dish, setDish] = useState(null);
 
     useEffect(() => {
-        console.log("Entering dish line 19")
+
         // should this be a different fetch 
         // because main_dish is searching priority queue 
         fetch(`http://127.0.0.1:8000/api/recipe_dish?name=${name}`)
