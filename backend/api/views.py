@@ -4,58 +4,288 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.request import Request 
 from rest_framework.decorators import api_view
-from scripts.nodeclass import create_list_nodes
+from scripts.nodeclass import create_list_dict_nodes
+from scripts.maketrie import Trie, TrieNode
+from collections import deque
+import heapq
 
 # Create your views here.
 @api_view(['GET'])
-def recipes_deque_view(request: Request) -> Response: 
-    # These functions can pull data from db
-    # Transform data
-    # Send emails and so on
-    
-    # need to map this action/view to a url, when we get a request at the url this funciton will be called
-    person = {'name': 'thomas', 'age':'20'}
-    return Response(person)
-
-@api_view(['GET'])
-def recipes_priority_view(request):
-    # These functions can pull data from db
-    # Transform data
-    # Send emails and so on
-    
-    # need to map this action/view to a url, when we get a request at the url this funciton will be called
-    person = {'name': 'thomas', 'age':'20'}
-    return Response(person)
-
-@api_view(['GET'])
 def recipes_pagination_priority(request):
+    size = int(request.query_params.get('size', 10)) # 3 is the default val
+    direction = request.query_params.get('direction', 'Right') # Right is the default val
+    index = int(request.query_params.get('index', 0)) # Zero is the default state value index (start at the most popular)
     # These functions can pull data from db
     # Transform data
     # Send emails and so on
     
     # need to map this action/view to a url, when we get a request at the url this funciton will be called
-    person = {'name': 'thomas', 'age':'20'}
-    return Response(person)
+    list_of_dict_nodes = create_list_dict_nodes()
+    top_k_dict_nodes = heapq.nlargest(size, list_of_dict_nodes, key=lambda node: node.get('Popularity'))
+    top_k_dict_nodes_deque = deque(top_k_dict_nodes)
+
+    # doesn't work cause backend can't keep track of state
+
+    # def slide_window_right(dict_nodes_deque: deque[dict[str, str]], window_size=3) -> list[dict[str, str]]: 
+    #     dict_nodes_deque.rotate(-1) # rotate deque window to the right
+    #     return list(dict_nodes_deque)[:window_size]
+    # def slide_window_left(dict_nodes_deque: deque[dict[str, str]], window_size=3) -> list[dict[str, str]]: 
+    #     dict_nodes_deque.rotate(1) # rotate deque window to the left
+    #     return list(dict_nodes_deque)[:window_size] 
+
+    def get_updated_index(index, direction, size):
+        if direction == 'right':
+            return (index) % size
+        elif direction == 'left':
+            return (index + size) % size
+        else: 
+            return index
+    
+    def get_window(data, start_index, window_size=3):
+        size = len(data)
+        window = []
+
+        for i in range(window_size):
+            current_index = (start_index + i) % size
+            window.append(data[current_index])
+
+        return window
+    
+
+    # Step 1: get the new starting index (lower bound of window)
+    new_index = get_updated_index(index, direction, size)
+
+    # Step 2: get the 3 associated recipe JSON dicts
+    window_data = get_window(top_k_dict_nodes, new_index)
+
+    # Step 3: return the full response
+    new_dict = {
+        'recipes': window_data, 
+        'lower_bound_index': new_index
+    }
+
+
+    # if direction.lower() == 'right': 
+    #     lower_bound = (index + 1) % size
+
+
+    # elif direction.lower() == 'left': 
+    #     lower_bound = (index - 1) % size
+        
+
+    # Sliding window problem
+
+    return Response(new_dict)
 
 @api_view(['GET'])
-def recipes_pagination_dequeue(request):
+def recipes_pagination_reverse_priority(request):
+    size = int(request.query_params.get('size', 10)) # 3 is the default val
+    direction = request.query_params.get('direction', 'Right') # Right is the default val
+    index = int(request.query_params.get('index', 0)) # Zero is the default state value index (start at the most popular)
     # These functions can pull data from db
     # Transform data
     # Send emails and so on
     
     # need to map this action/view to a url, when we get a request at the url this funciton will be called
-    person = {'name': 'thomas', 'age':'20'}
-    return Response(person)
+    list_of_dict_nodes = create_list_dict_nodes()
+    top_k_dict_nodes = heapq.nsmallest(size, list_of_dict_nodes, key=lambda node: node.get('Popularity'))
+    top_k_dict_nodes_deque = deque(top_k_dict_nodes)
+
+    # doesn't work cause backend can't keep track of state
+
+    # def slide_window_right(dict_nodes_deque: deque[dict[str, str]], window_size=3) -> list[dict[str, str]]: 
+    #     dict_nodes_deque.rotate(-1) # rotate deque window to the right
+    #     return list(dict_nodes_deque)[:window_size]
+    # def slide_window_left(dict_nodes_deque: deque[dict[str, str]], window_size=3) -> list[dict[str, str]]: 
+    #     dict_nodes_deque.rotate(1) # rotate deque window to the left
+    #     return list(dict_nodes_deque)[:window_size] 
+
+    def get_updated_index(index, direction, size):
+        if direction == 'right':
+            return (index) % size
+        elif direction == 'left':
+            return (index + size) % size
+        else: 
+            return index
+    
+    def get_window(data, start_index, window_size=3):
+        size = len(data)
+        window = []
+
+        for i in range(window_size):
+            current_index = (start_index + i) % size
+            window.append(data[current_index])
+
+        return window
+    
+
+    # Step 1: get the new starting index (lower bound of window)
+    new_index = get_updated_index(index, direction, size)
+
+    # Step 2: get the 3 associated recipe JSON dicts
+    window_data = get_window(top_k_dict_nodes, new_index)
+
+    # Step 3: return the full response
+    new_dict = {
+        'recipes': window_data, 
+        'lower_bound_index': new_index
+    }
+
+
+    # if direction.lower() == 'right': 
+    #     lower_bound = (index + 1) % size
+
+
+    # elif direction.lower() == 'left': 
+    #     lower_bound = (index - 1) % size
+        
+
+    # Sliding window problem
+
+    return Response(new_dict)
 
 @api_view(['GET'])
 def recipes_trie_names(request):
-    # These functions can pull data from db
-    # Transform data
-    # Send emails and so on
+    trie = Trie()
+
+    list_of_dict_nodes = create_list_dict_nodes()
+    list_of_tuples = trie.create_list_tuples(list_of_dict_nodes)
+
+
+    # Get and sanitize the query parameter
+    letter_word = request.query_params.get('letter')
+
+    if letter_word is None:
+        return Response({"error": "Missing 'letter' parameter"}, status=400)
     
-    # need to map this action/view to a url, when we get a request at the url this funciton will be called
-    person = create_list_nodes()
-    return Response(person)
+    if isinstance(letter_word, list):
+        letter_word = ''.join(letter_word)
+
+    letter_word = letter_word.lower()
+    # print("list_of_tuples before trie build:", list_of_tuples)
+
+    # Build the trie and search
+    trie_node = trie.build_trie(list_of_tuples)
+    list_of_tuples = trie.search(trie_node, letter_word)
+
+    # Extract second values from the tuples
+    second_values_words = [val for _, val in list_of_tuples]
+    print("size of second values words are: " , len(second_values_words))
+
+    return Response({"result": second_values_words})
+
+@api_view(['GET'])
+def request_recipe_pq(request):
+    recipe_name = request.query_params.get('name') # Right is the default val
+    recipe_name = recipe_name.lower()
+    recipe_name = recipe_name.replace('_', ' ')
+
+    list_of_dict_nodes = create_list_dict_nodes()
+    top_k_dict_nodes = heapq.nlargest(10, list_of_dict_nodes, key=lambda node: node.get('Popularity'))
+    bottom_k_dict_nodes = heapq.nsmallest(10, list_of_dict_nodes, key=lambda node: node.get('Popularity'))
+    
+    for dict_node in top_k_dict_nodes: 
+        recipe_name_node = dict_node.get("RecipeName")
+        recipe_name_node = recipe_name_node.lower()
+        if recipe_name_node == recipe_name: 
+            return Response({"result" : dict_node}) 
+            #recipe_in_queue = True
+
+    for dict_node in bottom_k_dict_nodes:
+        recipe_name_node = dict_node.get("RecipeName")
+        recipe_name_node = recipe_name_node.lower()
+        if recipe_name_node == recipe_name: 
+            return Response({"result" : dict_node}) 
+
+    return Response({"result": []})
+
+
+@api_view(['GET'])
+def request_recipes_by_tag(request):
+    recipe_category = request.query_params.get('category')
+
+    servingSize =  request.query_params.get('servings') 
+    originType = request.query_params.get('originType') 
+
+    list_of_dict_nodes = create_list_dict_nodes()
+    # print(len(list_of_dict_nodes))
+    filterList = list_of_dict_nodes
+
+    # filter out recipes by meal type (if selected)
+    if (recipe_category != None):
+        filterList = filter(lambda node: recipe_category in node['Category'], list_of_dict_nodes)
+        filterList = list(filterList)
+
+    #if/else statements filtering out by the serving size
+    if (servingSize == "1-4"): 
+        filterList = filter(lambda node: node['Servings'] <=4 , filterList)
+        filterList = list(filterList)
+    elif (servingSize == "5-8"):
+        filterList = filter(lambda node: 5 <= node['Servings'] <= 8, filterList)
+        filterList = list(filterList)
+    elif (servingSize == "9-12"):
+        filterList = filter(lambda node: 9 <= node['Servings'] <= 12, filterList)
+        filterList = list(filterList)
+    elif (servingSize == "13-19"):
+        filterList = filter(lambda node: 13 <= node['Servings'] <= 19, filterList)
+        filterList = list(filterList)
+    elif (servingSize == "20+"):
+        filterList = filter(lambda node: node['Servings'] >= 20, filterList)
+        filterList = list(filterList)
+
+
+    # filter out the recipes by origin 
+    if (originType != None):
+        filterList = filter(lambda node: originType in node['Origin'], filterList)
+        filterList = list(filterList)
+
+    if (len(filterList) > 0): 
+        return Response({"result" : filterList}) 
+   
+    return Response({"result": None})
+
+
+@api_view(['GET'])
+def recipe_trie(request): 
+
+    trie = Trie()
+
+    # Get the name from the query (always required by your frontend)
+    word = request.query_params.get('name')
+    word = word.lower()
+    # Load and process the data
+    list_of_dict_nodes = create_list_dict_nodes()
+    
+    node = None
+    for dict_node in list_of_dict_nodes: 
+        print(dict_node)
+        if dict_node.get("RecipeName", "").lower() == word:
+            node = dict_node
+    
+    print("NODE", node)
+    return Response({"results": node})
+
+
+
+@api_view(['GET'])
+def search_recipe(request): 
+    # Get the name from the query (always required by your frontend)
+    recipeName = request.query_params.get('name')
+    recipeName = recipeName.lower()
+    # Load and process the data
+    list_of_dict_nodes = create_list_dict_nodes()
+    
+  
+    for dict_node in list_of_dict_nodes: 
+        recipe_name_node = dict_node.get("RecipeName")
+        recipe_name_node = recipe_name_node.lower()
+        if recipe_name_node == recipeName: 
+            return Response({"result" : dict_node}) 
+        
+
+    
+    return Response({"results": None})
+
 
 
 

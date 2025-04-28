@@ -5,7 +5,6 @@
 .about-container {
     text-align: center;
     padding: 50px 20px;
-    background-color: #c4c4c4;
     height: 80vh; /* min-height: 100vh; height: 80vh; */
     width: 85vw; /* margin-top: 25vh; width: 85vw; */
   }
@@ -13,7 +12,7 @@
   .about-title {
     font-size: 3rem;
     margin-bottom: 50px;
-    color: #333;
+    color: #ffffff;
   }
   
   .about-columns {
@@ -27,11 +26,11 @@
     flex: 1;
     height: 60vh;
     max-height: 60vh;
-    min-height: 10vh;
+    min-height: 60vh;
     max-width: 20vw;
     min-width: 10vw;
     padding: 20px;
-    background-color: white;
+    background-color: #fff9e6;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
@@ -62,11 +61,12 @@
   flex-direction: column;
   gap: 15px;
   margin-top: 10px;
+  overflow: hidden;
 }
 
 .team-member {
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   border-radius: 8px;
 }
 
@@ -85,6 +85,27 @@
   font-size: 1rem;
 }
 
+/*
+      Acknowledgements Section
+*/
+
+.acknowledgements-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+  overflow: auto;
+}
+
+.acknowledgement-item {
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  color: #333;
+}
+
 /* 
       Website Section 
 */
@@ -98,7 +119,7 @@
 
 .website-box {
   padding: 12px;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -109,7 +130,7 @@
 
 .website-box.overview {
   font-weight: bold;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
 }
 
 .website-box:hover {
@@ -129,7 +150,7 @@
 
 .motivation-box {
   padding: 12px;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -140,4 +161,38 @@
 
 .motivation-box:hover {
   transform: scale(1.05);
+}
+
+/*
+      Flip 
+*/
+.flip-box {
+  height: 60vh;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-front,
+.flip-back {
+  position: absolute;
+  width: 100%;
+  backface-visibility: hidden;
+  top: 0;
+  left: 0;
+}
+
+.flip-back {
+  transform: rotateY(180deg);
 }

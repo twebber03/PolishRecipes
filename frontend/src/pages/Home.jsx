@@ -1,83 +1,114 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react'
-import '../style/App.css'
+import { useState, useEffect } from "react";
+import "../style/App.css";
 
-// home serves as a display of top k dishes 
 function Home() {
-    // set top k count e.g. 10
-    //const [k, setK] = useState(10)
+    const [dishes, setDishes] = useState([]);
+    const [index, setIndex] = useState(-1);
+    const [size, setSize] = useState(10);
+    const [direction, setDirection] = useState("right");
+    const [k, setK] = useState(0);
+    const navigate = useNavigate();
+    const [mainDisplayedDish, setMainDisplayedDish] = useState(null);
+    const [intervalId, setIntervalId] = useState(null);
+    const autoInterval = 5000; // 5 seconds
 
-    // get backend stuff here by popping off k dishes from priority queue (placeholder for now)
-    const [dishes, setDishes] = useState([
-        { id: 1, name: "Red Barszcz", image: "/assets/placeholders/dish1.jpg" },
-        { id: 2, name: "Rosół", image: "/assets/placeholders/dish2.jpg" },
-        { id: 3, name: "Pierogi", image: "/assets/placeholders/dish3.jpg" },
-        { id: 4, name: "Gulasz", image: "/assets/placeholders/dish4.jpg" },
-        { id: 5, name: "Mizeria", image: "/assets/placeholders/dish5.jpg" },
-    ]);
-
-    // get top k count (placeholder)
-    const [k, setK] = useState(dishes.length)
-
-    // current index of carousel
-    const [index, setIndex] = useState(0);
+    // fetch dishes 
+    useEffect(() => {
+        fetch(`http://127.0.0.1:8000/api/main_carousel?index=${index}&size=${size}&direction=${direction}`)
+            .then((res) => res.json())
+            .then((data) => {
+                setDishes(data["recipes"]);
+                setK(data["recipes"].length);
+                setMainDisplayedDish(data["recipes"].slice(0, 3)[1]);
+            })
+            .catch((err) => console.error("Request failed", err));
+    }, [index, size, direction]);
 
     const nextDish = () => {
-        setIndex((prevIndex) => (prevIndex + 1) % k);
+        setDirection("right");
+        setIndex(prev => prev + 1);
     };
 
     const prevDish = () => {
-        setIndex((prevIndex) => (prevIndex - 1 + k) % k);
+        setDirection("left");
+        setIndex(prev => prev - 1);
     };
 
     const getDisplayedDishes = () => {
-        return [
-        dishes[(index - 1 + k) % k], // prev dish
-        dishes[index], // center dish (main focus)
-        dishes[(index + 1) % k], // next dish
-        ];
+        return dishes.slice(0, 3); // grabs the first 3
     };
 
-    const navigate = useNavigate(); 
-    // navigate to dish page based on its id
     const goToDishPage = (name) => {
-        navigate(`/dish/${name}`); 
-    };    
-    
-    // JSX goes here
-    return ( 
-    <>
+        
+        navigate(`/dish/${name.toLowerCase()}`);
+    };
+
+    // auto move to the next dish on interval
+    useEffect(() => {
+        const interval = setInterval(() => {
+            nextDish(); 
+        }, autoInterval);
+
+        setIntervalId(interval);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    // pause auto on hover
+    const handleMouseEnter = () => {
+        clearInterval(intervalId); 
+    };
+
+    const handleMouseLeave = () => {
+        const interval = setInterval(() => {
+            nextDish();
+        }, 10000);
+        setIntervalId(interval); // restart interval when hover ends
+    };
+
+    return (
         <div className="carousel-container">
-        <h1>Top {k} Dishes of the Day</h1>
-        <div className="carousel">
-            <button onClick={prevDish} className="nav-button left">❮</button>
+            <h1>Top {size} Dishes of the Day</h1>
+            <div
+                className="carousel"
+                onMouseEnter={handleMouseEnter} // pause on hover
+                onMouseLeave={handleMouseLeave} // resume when mouse leaves
+            >
+                <button onClick={prevDish} className="nav-button left">
+                    ❮
+                </button>
 
-            <div className="dishes">
-            {getDisplayedDishes().map((dish, i) => (
-                <div
-                key={dish.id}
-                className={`dish ${i === 1 ? "center" : "side"}`} // center dish is larger
-                onClick={() => {
-                    if (i === 1) {
-                      goToDishPage(dish.name.toLowerCase()); // navigate to dish's page
-                    } else {
-                      i === 0 ? prevDish() : nextDish(); // move the side dish to the center
-                    }
-                  }}
-                >
-                <img src={dish.image} alt={dish.name} />
+                <div className="dishes">
+                    {getDisplayedDishes().map((dish, i) => (
+                        <div
+                            key={dish.ID}
+                            className={`dish ${i === 1 ? "center" : "side"}`}
+                            onClick={() => {
+                                if (i === 1) {
+                                    goToDishPage(dish.RecipeName);
+                                } else {
+                                    i === 0 ? prevDish() : nextDish();
+                                }
+                            }}
+                        >
+                            <img src={dish.ImageURL} alt={dish.RecipeName} />
+                        </div>
+                    ))}
                 </div>
-            ))}
-            </div>
 
-            <button onClick={nextDish} className="nav-button right">❯</button>
+                <button onClick={nextDish} className="nav-button right">
+                    ❯
+                </button>
+            </div>
+            {mainDisplayedDish && (
+                <h2 className="dish-name">
+                    {mainDisplayedDish.RecipeName}
+                </h2>
+            )}
+
         </div>
-        {/* <h2 className="dish-name">{"#" + dishes[index].id + ": " + dishes[index].name}</h2> */} 
-        <h2 className="dish-name">{dishes[index].name}</h2>
-        </div>
-    </>
-    )
-  }
-  
-  export default Home;
-  
+    );
+}
+
+export default Home;

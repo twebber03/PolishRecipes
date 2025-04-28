@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,19 +22,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-load_dotenv()
 
 # BASE_DIR = Path(__file__).resolve().parent.parent
 # load_dotenv(dotenv_path=BASE_DIR / ".env")
 
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
-DEBUG = os.getenv('DEBUG')
+SECRET_KEY = 'django-insecure-01x!u$2&^0x@^mgl92%a9zam%6o16ji@y&6+_$dg0@qe0w2!5d'
+DEBUG = True
 # os.getenv("DJANGO_SECRET_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -48,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages', # used for displaying one time notifications to the user
     'django.contrib.staticfiles', # for serving static files such as images, css files and so on
     # Can create our own apps 
+    'corsheaders',
     'playground',
     "rest_framework", 
     "api", 
@@ -62,7 +61,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
 
 ROOT_URLCONF = 'PolishRecipesAPI.urls'
 

@@ -1,92 +1,136 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from 'react'
-import '../style/Dish.css'
+import { useState, useEffect } from 'react';
+import { addFavorite, removeFavorite, isFavorite as checkIsFavorite } from '../utils/favorite';
+import NotFound from "./NotFound";
+import '../style/Dish.css';
 
 const flipInterval = 5000;
 
 function Dish() {
-  // get dish name
+  // get dish name from url parameters
   const { name } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
   const [flipped, setFlipped] = useState(false);
   const [autoFlip, setAutoFlip] = useState(true);
   const [resetKey, setResetKey] = useState(0); // used to tract user interaction
+  const [dish, setDish] = useState(null);
 
-  // backend call to get the dish with the cooresponding name (placeholder for now)
-  const [dishes, setDish] = useState([
-    {
-      ID: 1, 
-      Popularity: 100, 
-      RecipeName: "Red Barszcz", 
-      Description: "Red Barszcz is a traditional Polish beet soup, often served with dumplings (uszka) or as a clear broth. It has deep cultural significance, especially during Christmas Eve dinner (Wigilia) in Poland. The dish is known for its vibrant red color and tangy flavor, commonly enjoyed throughout Eastern Europe.",
-      Ingredients: ["Beets", "Garlic", "Onion", "Carrot", "Celery", "Bay leaves", "Allspice", "Salt", "Pepper", "Lemon juice", "Sour cream (optional)"], 
-      Directions: "1. Peel and chop the beets, onion, carrot, and celery.\n" + "2. In a large pot, bring water to a boil and add the chopped vegetables.\n" + "3. Add bay leaves, allspice, salt, and pepper. Simmer for 45 minutes.\n" + "4. Strain the liquid to get a clear broth (or blend for a thicker soup).\n" + "5. Add lemon juice to enhance the tangy flavor.\n" + "6. Serve hot with sour cream or dumplings (uszka) for extra flavor.",
-      Category: "Lunch",
-      Nutrients: {"calories": "180 kcal", "carbohydrateContent": "35 g", "cholesterolContent": "20 mg", "fiberContent": "4 g", "proteinContent": "6 g", "saturatedFatContent": "2 g", "sodiumContent": "550 mg", "sugarContent": "8 g", "fatContent": "8 g", "unsaturatedFatContent": "3 g"},
-      Servings: "4 servings",
-      ImageURL: "/assets/placeholders/dish1.jpg",
-    },
-      { ID: 2, RecipeName: "Rosół", ImageURL: "/assets/placeholders/dish2.jpg" },
-      { ID: 3, RecipeName: "Pierogi", ImageURL: "/assets/placeholders/dish3.jpg" },
-      { ID: 4, RecipeName: "Gulasz", ImageURL: "/assets/placeholders/dish4.jpg" },
-      { ID: 5, RecipeName: "Mizeria", ImageURL: "/assets/placeholders/dish5.jpg" },
-  ]);
+  useEffect(() => {
+    fetch(`http://127.0.0.1:8000/api/main_dish?name=${name}`)
+      .then((res) => res.json())
+      .then((data) => {
+        let result = data["result"];
+        // console.log(result);
 
-  const dish = dishes.find(search => search.RecipeName.toLowerCase() === name.toLowerCase());
+        // handle 'Category' as it may come empty or without spaces
+        if (typeof result.Category === "string") {
+          if (result.Category == "") {
+            result.Category = "Unknown"
+          }
+          else {
+            result.Category = result.Category.split(",").join(", ");
+          }
+        }
+
+        // handle 'Ingredients' as it comes in a string when it should be an array
+        if (typeof result.Ingredients === "string") {
+        
+          try {
+            if (result.Ingredients.includes('"')) {
+              result.Ingredients = JSON.parse(result.Ingredients);
+            }
+            else {
+              result.Ingredients = JSON.parse(result.Ingredients.replace(/'/g, '"'));
+            }
+          } catch (e) {
+            result.Ingredients = ["No ingredients available"];
+          }
+        } else if (!Array.isArray(result.Ingredients)) {
+          result.Ingredients = ["No ingredients available"];
+        }
+
+        // handle 'Nutrients' as it comes in a string when it should be a dict
+        if (typeof result.Nutrients === "string") {
+          try {
+            result.Nutrients = JSON.parse(result.Nutrients.replace(/'/g, '"'));
+          } catch (e) {
+            result.Nutrients = {};
+          }
+        } else if (typeof result.Nutrients !== "object" || result.Nutrients === null) {
+          result.Nutrients = {};
+        }
+
+        setDish(result);
+      })
+      .catch((err) => console.error("Request failed", err));
+  }, [name]);
+
+  useEffect(() => {
+    if (!autoFlip) return;
+
+    const interval = setInterval(() => {
+      setFlipped(prev => !prev);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [resetKey, autoFlip]); // resets when resetKey changes or autoFlip is toggled
+
+  useEffect(() => {
+    if (dish) {
+      setIsFavorite(checkIsFavorite(dish.ID));
+    }
+  }, [dish]);
+
+
+  const truncateText = (text, max = 60) => text.length > max ? text.slice(0, max - 3) + "..." : text;
 
   // error 404
-  if (!dish) {
-    return <div className="dish-not-found">Dish not found!</div>;
-  }
+  if (!dish) return <NotFound />;
 
   // default values if missing
   const {
     ID = 0,
     Popularity = 0,
     RecipeName = name,
-    Description = "No cultural info available",
+    Description = "No description available",
     Ingredients = ["No ingredients available"],
     Directions = "No recipe available",
     Category = "Unknown",
-    Nutrients = {'calories': '0 kcal', 'carbohydrateContent': '0 g', 'cholesterolContent': '0 mg', 'fiberContent': '0 g', 'proteinContent': '0 g', 'saturatedFatContent': '0 g', 'sodiumContent': '0 mg', 'sugarContent': '0 g', 'fatContent': '0 g', 'unsaturatedFatContent': '0 g'},
+    Nutrients = { 'calories': '0 kcal', 'carbohydrateContent': '0 g', 'cholesterolContent': '0 mg', 'fiberContent': '0 g', 'proteinContent': '0 g', 'saturatedFatContent': '0 g', 'sodiumContent': '0 mg', 'sugarContent': '0 g', 'fatContent': '0 g', 'unsaturatedFatContent': '0 g' },
     Servings = "0 servings",
-    Location = "Unknown location",
     ImageURL = "/assets/placeholders/default.jpg",
+    HistoryURL = "",
+    History = "No history available",
+    Origin = "No origin available",
   } = dish;
 
   // toggle favorite status
   const toggleFavorite = () => {
+    if (isFavorite) {
+      removeFavorite(ID);
+    } else {
+      addFavorite(dish);
+    }
     setIsFavorite(!isFavorite);
   };
 
   const handleFlip = () => {
     setFlipped(prev => !prev);
-    setResetKey(prev => prev + 1); // Changes key, resetting the interval
+    setResetKey(prev => prev + 1); // changes key, resetting the interval
   };
 
-  useEffect(() => {
-    if (!autoFlip) return;
-  
-    const interval = setInterval(() => {
-      setFlipped(prev => !prev);
-    }, 5000);
-  
-    return () => clearInterval(interval);
-  }, [resetKey, autoFlip]); // resets when resetKey changes or autoFlip is toggled
-  
-
-return (
+  return (
     <div className="container">
       <div className="header">
         <div className="title">
-          <h1>{dish.RecipeName}</h1>
-          <h3>{"Type: " + Category}</h3>
+          <h1 title={dish.RecipeName}>{truncateText(dish.RecipeName)}</h1>
+          <h3>{"Type: " + dish.Category}</h3>
         </div>
         <button onClick={toggleFavorite} className="favorite-button">
           {isFavorite ? "★ Favorited" : "☆ Favorite"}
         </button>
       </div>
-  
+
       <div className="main-content">
         <div className="grid">
           {/* Flipping Image Box */}
@@ -96,22 +140,22 @@ return (
                 <img src={ImageURL} alt={RecipeName} className="image" />
               </div>
               <div className="flip-box-back">
-                <p>{Location}</p> 
+                <p>{Origin}</p>
                 {/* replace with a map api that can display map given a location*/}
                 <button className="disable-flip-btn" onClick={(e) => {
-                    e.stopPropagation(); // Prevent accidental flipping when clicking button
-                    setAutoFlip(prev => !prev);
-                  }}>
-                  <img 
-                    src= "/assets/icons/lock.png"
-                    alt={autoFlip ? "L" : "U"} 
+                  e.stopPropagation(); // prevents accidental flipping when clicking button
+                  setAutoFlip(prev => !prev);
+                }}>
+                  <img
+                    src="/assets/icons/lock.png"
+                    alt={autoFlip ? "L" : "U"}
                     className={`lock-icon ${autoFlip ? "unlocked" : "locked"}`}
                   />
                 </button>
               </div>
             </div>
           </div>
-  
+
           {/* Other Boxes */}
           <div className="box-scroll">
             <h3>Ingredients</h3>
@@ -124,7 +168,7 @@ return (
 
           <div className="box-scroll">
             <h3>Culture</h3>
-            <p>{Description}</p>
+            <p>{History}</p>
           </div>
 
           <div className="box-scroll">
@@ -136,18 +180,18 @@ return (
                   <li key={index}>
                     <strong>
                       {key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}:
-                    </strong> 
+                    </strong>
                     {" " + value}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p>No nutrition data available.</p> 
+              <p>No nutrition data available.</p>
             )}
           </div>
 
         </div>
-  
+
         <div className="recipe-box">
           <h3>Recipe</h3>
           <p style={{ whiteSpace: "pre-line" }}>{Directions}</p>

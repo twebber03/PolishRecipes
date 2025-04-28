@@ -1,19 +1,21 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // route module
 import './style/App.css'
-import Navbar from "./Navbar"; 
+import Navbar from "./Navbar";
 import AboutUs from "./pages/AboutUs";
 import Home from "./pages/Home";
 import Discover from "./pages/Discover";
 import Saved from "./pages/Saved";
 import Search from "./pages/Search";
 import Dish from "./pages/Dish";
+import TaggedDishes from "./pages/TaggedDishes";
+import TaggedSearch from "./pages/TaggedSearch"
 import NotFound from "./pages/NotFound";
 
 // app serves as the main router for the application
 function App() {
   return (
     <Router>
-      <Navbar /> 
+      <Navbar />
       <div className="content">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -22,6 +24,8 @@ function App() {
           <Route path="/discover" element={<Discover />} />
           <Route path="/saved" element={<Saved />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/results" element={<TaggedDishes />} />
+          <Route path="/tagSearch/:name" element={<TaggedSearch />} />
           <Route path="/dish/:name" element={<Dish />} />
           <Route path="*" element={<NotFound />} /> {/* catch-all 404 route */}
         </Routes>
