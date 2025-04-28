@@ -148,9 +148,11 @@ manually adding contributors because dependency graph was not allowed above -->
   </tr>
 </table>
 
-- Angela Lojko -- project manager responsible for oversight of both frontend and backend progress, compeleted the backend data pulling, completed the search by tag functionality
-- Oli Kosiacki -- frontend developor responsible for the UI Design of the application, completed the about us, home, discover, saved, search 
-- Thomas Webber -- backend developer responsible for the backend development of the application, creating the end points for the front end connection, creating the datastructures 
+- **Angela Lojko** -- project manager responsible for the logistics and oversight of both frontend and backend progress, scheduling meetings and timelines, assisted both frontend and backend with troubleshooting, completed the backend data pulling, completed the forntend and backend search by tag functionality
+  
+- **Oli Kosiacki** -- frontend developor responsible for the UI Design of the application, completed the about us, home, discover, saved, search by recipe functionality, using the endpoints fetched the appropriate requests
+  
+- **Thomas Webber** -- backend developer responsible for the backend development of the application, creating the end points for the front end connection, created the datastructures and pulled the infromation in from the CSV file to store into the data structures. 
   
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
