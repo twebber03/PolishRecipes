@@ -47,6 +47,12 @@ The goal of our project is to provide users with an immersive experience in Poli
 
 
 ## Getting Started
+**System Requirements:** 
+- Node.js 22
+- Pyenv (to create a local environment)
+- Chrome
+- Visual Studio Code 
+
 ```bash
 git clone https://github.com/University-of-Illinois-Chicago/fgp-team5.git
 cd fgp-team5
@@ -55,10 +61,40 @@ cd fgp-team5
 cd frontend
 npm intall
 
+#Setting up backend (do this in another terminal-- split terminal screen on visual studio code)
+cd backend
 
+# intall and change to local environment 
+pyenv install 3.12.7
+pyenv local 3.12.7
 
+#create a virtual environment
+python -m venv venv
 
+#activate virtual environment
+# - macOS/Linux/WSL
+source venv/bin/activate
+# - Windows
+source .\venv\Scripts\activate
+
+#install dependencies
+pip install -r requirements.txt
+
+# Set up the database and apply migrations
+python manage.py makemigrations
+python manage.py migrate
+
+# Create a superuser to access the admin dashboard
+python manage.py createsuperuser
+
+# Run frontend
+npm run dev
+
+# Run backend (Django server)
+python manage.py runserver
 ```
+
+**NOTE:** Once you have both frontend and backend running, you will see one localhost:5173 link, which will be the application, and one 127.0.0.1 link, which will be the backend server
 
 ## Tech Stack
 - **Frontend:** React 
