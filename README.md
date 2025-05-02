@@ -176,7 +176,7 @@ manually adding contributors because dependency graph was not allowed above -->
   
 - **Oli Kosiacki** -- frontend developor responsible for the UI Design of the application, completed the about us, home, discover, saved, search by recipe functionality, using the endpoints fetched the appropriate requests
   
-- **Thomas Webber** -- backend developer responsible for the backend development of the application, creating the end points for the front end connection, created the datastructures and pulled the infromation in from the CSV file to store into the data structures. 
+- **Thomas Webber** -- backend developer responsible for the backend development of the application, initialized Django project with admin API and the working API, created various API end points for the front end connection, created the scripts folder — a folder that initialized our data structures to be able to be sent as JSON objects, created the Trie, Priority Queue and Circular Buffer data structures and pulled the infromation in from the CSV file to store, responsible for the majority of buisness logic of the application. 
   
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
