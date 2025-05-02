@@ -123,6 +123,8 @@ python manage.py runserver
 ## Tech Stack
 - **Frontend:** React 
 - **Backend:** Django/ Python/ Pandas
+## Why Django?
+ - Scalability, that's a big reason why we chose Django over Flask, while it is not noticable for this project, if there are any future plans to work outside of class on this project with a database of thousands of recipes, then Django would have been the better approach for future deployment. Django has way more tools under its belt from what it looks like, even though it is not as lightweight as the Flask framework, it would pay off for the future. 
 
 ## 
 ## Demo<!-- Required -->
